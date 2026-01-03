@@ -4,16 +4,16 @@ const userSchema = new mongoose.Schema(
   {
     name: {
       type: String,
-      required: ["name is required field"],
+      required: [true, "name is required field"],
     },
     email: {
       type: String,
-      required: ["email is required field"],
+      required: [true, "email is required field"],
       unique: true,
     },
     password: {
       type: String,
-      required: ["password is required field"],
+      required: [true, "password is required field"],
     },
     isVerified: {
       type: Boolean,
@@ -28,7 +28,9 @@ const userSchema = new mongoose.Schema(
     resetPasswordToken: String,
     resetPasswordTokenExpireAt: Date,
   },
-  { timestamps }
+  { timestamps: true }
 );
 
-export default User = mongoose.model("User", userSchema);
+const User = mongoose.model("User", userSchema);
+
+export default User;

@@ -6,10 +6,10 @@ import authRoutes from "./routes/auth.route.js";
 
 const app = express();
 
-app.use(cors({ origin: "*", credentials: true }));
+app.use(cors({ origin: "*" }));
 app.use(express.json());
 
-app.use("/", (_, res) => {
+app.get("/", (_, res) => {
   return res.status(200).json({
     success: true,
     message: "AuthSetu server is healthy.",
