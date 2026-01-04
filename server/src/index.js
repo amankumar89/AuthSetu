@@ -11,13 +11,37 @@ app.use(cors({ origin: "*" }));
 app.use(express.json());
 app.use(cookieParser());
 
-app.get("/", (_, res) => {
-  return res.status(200).json({
+app.get("/", (req, res) => {
+  res.status(200).json({
     success: true,
-    message: "AuthSetu server is healthy.",
+    message: "Welcome to AuthSetu server...",
   });
 });
+
+// Health check
+app.get("/health", (req, res) => {
+  res.status(200).json({
+    success: true,
+    service: "AuthSetu",
+    status: "healthy",
+    timestamp: new Date().toISOString(),
+  });
+});
+
+// Auth routes
 app.use("/api/auth", authRoutes);
+
+// 404 handler (catch-all)
+app.all("*", (req, res) => {
+  res.status(404).json({
+    success: false,
+    message: "Route not found",
+    availableEndpoints: {
+      auth: "/api/auth",
+      health: "/health",
+    },
+  });
+});
 
 app.listen(ENV.PORT, (err) => {
   if (err) {
