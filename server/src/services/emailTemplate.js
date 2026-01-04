@@ -205,3 +205,67 @@ export const PASSWORD_CHANGE_CONFIRMATION_EMAIL_TEMPLATE = `<!DOCTYPE html>
   </body>
 </html>
 `;
+
+export const DELETE_USER_TEMPLATE = `<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8" />
+    <title>Account Deleted</title>
+  </head>
+  <body style="font-family: Arial, sans-serif; background:#f6f8fa; padding:20px;">
+    <table width="100%" cellpadding="0" cellspacing="0">
+      <tr>
+        <td align="center">
+          <table width="500" style="background:#ffffff; padding:24px; border-radius:8px;">
+            <tr>
+              <td>
+                <h2 style="color:#dc2626;">Account Deleted</h2>
+
+                <p>Hi {{userName}},</p>
+
+                <p>
+                  This email confirms that your <strong>AuthSetu</strong>
+                  account has been <strong>permanently deleted</strong>.
+                </p>
+
+                <table style="margin:16px 0;">
+                  <tr>
+                    <td><strong>Date:</strong></td>
+                    <td>{{date}}</td>
+                  </tr>
+                  <tr>
+                    <td><strong>Device:</strong></td>
+                    <td>{{device}}</td>
+                  </tr>
+                  <tr>
+                    <td><strong>Location:</strong></td>
+                    <td>{{location}}</td>
+                  </tr>
+                </table>
+
+                <p style="font-size:14px; color:#555;">
+                  All your personal data has been removed from our systems,
+                  except where retention is required by law.
+                </p>
+
+                <p>
+                  If you did <strong>not</strong> request this action,
+                  please contact our support team immediately.
+                </p>
+
+                <p style="margin-top:24px;">
+                  Thank you for using <strong>AuthSetu</strong>.
+                </p>
+
+                <p>
+                  <strong>AuthSetu Security Team</strong>
+                </p>
+              </td>
+            </tr>
+          </table>
+        </td>
+      </tr>
+    </table>
+  </body>
+</html>
+`;

@@ -1,6 +1,7 @@
 import nodemailer from "nodemailer";
 import { ENV } from "../config/env.js";
 import {
+  DELETE_USER_TEMPLATE,
   EMAIL_VERIFICATION_TEMPLATE,
   PASSWORD_CHANGE_CONFIRMATION_EMAIL_TEMPLATE,
   PASSWORD_RESET_EMAIL_TEMPLATE,
@@ -80,7 +81,7 @@ export const passwordResetEmail = async (
     });
     console.log("password reset email sent successfully", response);
   } catch (error) {
-    console.log("error in sending welcome email", error);
+    console.log("error in sending password reset email", error);
   }
 };
 
@@ -108,6 +109,31 @@ export const passwordResetSuccessEmail = async (
     });
     console.log("password reset success email sent successfully", response);
   } catch (error) {
-    console.log("error in sending welcome email", error);
+    console.log("error in sending password reset success email", error);
+  }
+};
+
+// password reset success email
+export const deleteUserSuccessEmail = async (
+  email,
+  userName,
+  date,
+  device,
+  location
+) => {
+  try {
+    const response = await transporter.sendMail({
+      from: sender,
+      to: email,
+      subject: "Account Delete Successful",
+      html: DELETE_USER_TEMPLATE.replace("{{userName}}", userName)
+        .replace("{{date}}", date)
+        .replace("{{device}}", device)
+        .replace("{{location}}", location),
+      category: "Account Delete Success",
+    });
+    console.log("account delete success email sent successfully", response);
+  } catch (error) {
+    console.log("error in sending delete user success email", error);
   }
 };
