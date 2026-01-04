@@ -22,7 +22,6 @@ const sender = {
 export const sendVerificationEmail = async (
   email,
   userName,
-  appName,
   verificationToken,
   expiryMinutes
 ) => {
@@ -36,7 +35,6 @@ export const sendVerificationEmail = async (
         "{{verificationCode}}",
         verificationToken
       )
-        .replace("{{appName}}", appName)
         .replace("{{userName}}", userName)
         .replace("{{expiryMinutes}}", expiryMinutes),
       category: "Email Verification",
@@ -48,17 +46,14 @@ export const sendVerificationEmail = async (
 };
 
 // send welcome email
-export const sendWelcomeEmail = async (email, userName, appName) => {
+export const sendWelcomeEmail = async (email, userName) => {
   const recipient = [{ email }];
   try {
     const response = await mailtrapClient.send({
       from: sender,
       to: recipient,
       subject: "Welcome to AuthSetu App",
-      html: WELCOME_EMAIL_TEMPLATE.replace("{{userName}}", userName).replace(
-        "{{appName}}",
-        appName
-      ),
+      html: WELCOME_EMAIL_TEMPLATE.replace("{{userName}}", userName),
       category: "Welcome Email",
     });
     console.log("welcome email sent successfully", response);
@@ -71,7 +66,6 @@ export const sendWelcomeEmail = async (email, userName, appName) => {
 export const passwordResetEmail = async (
   email,
   userName,
-  appName,
   resetLink,
   timeRemaining
 ) => {
@@ -83,8 +77,7 @@ export const passwordResetEmail = async (
       subject: "Reset Your Password",
       html: PASSWORD_RESET_EMAIL_TEMPLATE.replace("{{userName}}", userName)
         .replace("{{resetLink}}", resetLink)
-        .replace("{{expiryMinutes}}", timeRemaining)
-        .replace("{{appName}}", appName),
+        .replace("{{expiryMinutes}}", timeRemaining),
       category: "Password Reset",
     });
     console.log("password reset email sent successfully", response);
@@ -97,7 +90,6 @@ export const passwordResetEmail = async (
 export const passwordResetSuccessEmail = async (
   email,
   userName,
-  appName,
   date,
   device,
   location
@@ -112,7 +104,6 @@ export const passwordResetSuccessEmail = async (
         "{{userName}}",
         userName
       )
-        .replace("{{appName}}", appName)
         .replace("{{date}}", date)
         .replace("{{device}}", device)
         .replace("{{location}}", location),

@@ -16,7 +16,7 @@ export const EMAIL_VERIFICATION_TEMPLATE = `<!DOCTYPE html>
                 <p>Hi {{userName}},</p>
 
                 <p>
-                  Welcome to <strong>{{appName}}</strong> 👋  
+                  Welcome to <strong>AuthSetu</strong> 👋  
                   Use the verification code below to complete your signup:
                 </p>
 
@@ -41,7 +41,7 @@ export const EMAIL_VERIFICATION_TEMPLATE = `<!DOCTYPE html>
                   If you didn’t request this, you can safely ignore this email.
                 </p>
 
-                <p>Thanks,<br /><strong>{{appName}} Team</strong></p>
+                <p>Thanks,<br /><strong>AuthSetu Team</strong></p>
               </td>
             </tr>
           </table>
@@ -66,7 +66,7 @@ export const WELCOME_EMAIL_TEMPLATE = `<!DOCTYPE html>
           <table width="500" style="background:#ffffff; padding:24px; border-radius:8px;">
             <tr>
               <td>
-                <h2>🎉 Welcome to {{appName}}</h2>
+                <h2>🎉 Welcome to AuthSetu</h2>
 
                 <p>Hi {{userName}},</p>
 
@@ -87,7 +87,7 @@ export const WELCOME_EMAIL_TEMPLATE = `<!DOCTYPE html>
 
                 <p>
                   Happy building 🚀<br />
-                  <strong>{{appName}} Team</strong>
+                  <strong>AuthSetu Team</strong>
                 </p>
               </td>
             </tr>
@@ -147,7 +147,7 @@ export const PASSWORD_RESET_EMAIL_TEMPLATE = `<!DOCTYPE html>
 
                 <p>
                   Stay secure 🔒<br />
-                  <strong>{{appName}} Team</strong>
+                  <strong>AuthSetu Team</strong>
                 </p>
               </td>
             </tr>
@@ -178,7 +178,7 @@ export const PASSWORD_CHANGE_CONFIRMATION_EMAIL_TEMPLATE = `<!DOCTYPE html>
                 <p>Hi {{userName}},</p>
 
                 <p>
-                  This is a confirmation that your <strong>{{appName}}</strong>
+                  This is a confirmation that your <strong>AuthSetu</strong>
                   password was changed.
                 </p>
 
@@ -194,7 +194,7 @@ export const PASSWORD_CHANGE_CONFIRMATION_EMAIL_TEMPLATE = `<!DOCTYPE html>
                 </p>
 
                 <p>
-                  <strong>{{appName}} Security Team</strong>
+                  <strong>AuthSetu Security Team</strong>
                 </p>
               </td>
             </tr>
