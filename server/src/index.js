@@ -1,4 +1,4 @@
-import express, { urlencoded } from "express";
+import express from "express";
 import cors from "cors";
 import cookieParser from "cookie-parser";
 import { ENV } from "./config/env.js";
@@ -9,7 +9,7 @@ const app = express();
 
 app.use(cors({ origin: "*" }));
 app.use(express.json());
-app.use(cookieParser({ urlencoded: true }));
+app.use(cookieParser());
 
 app.get("/", (_, res) => {
   return res.status(200).json({
