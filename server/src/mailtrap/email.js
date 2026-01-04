@@ -12,26 +12,36 @@ const mailtrapClient = new MailtrapClient({
 });
 
 const sender = {
-  name: "Aman Kumar",
-  email: "amankumaroo784@gmail.com",
+  name: ENV.MAILTRAP_FROM_NAME,
+  email: ENV.MAILTRAP_FROM_EMAIL,
 };
 
 // send emails
 
 // verfication email
-export const sendVerificationEmail = async (email, verficationToken) => {
-  const receipient = [{ email }];
+export const sendVerificationEmail = async (
+  email,
+  userName,
+  appName,
+  verificationToken,
+  expiryMinutes
+) => {
+  const recipient = [{ email }];
   try {
-    await mailtrapClient.send({
+    const response = await mailtrapClient.send({
       from: sender,
-      to: receipient,
+      to: recipient,
       subject: "Verify your email for AuthSetu",
       html: EMAIL_VERIFICATION_TEMPLATE.replace(
         "{{verificationCode}}",
-        verficationToken
-      ),
+        verificationToken
+      )
+        .replace("{{appName}}", appName)
+        .replace("{{userName}}", userName)
+        .replace("{{expiryMinutes}}", expiryMinutes),
       category: "Email Verification",
     });
+    console.log("verification email sent successfully", response);
   } catch (error) {
     console.error("Error sending verification email:", error);
   }
@@ -39,18 +49,19 @@ export const sendVerificationEmail = async (email, verficationToken) => {
 
 // send welcome email
 export const sendWelcomeEmail = async (email, userName, appName) => {
-  const receipient = [{ email }];
+  const recipient = [{ email }];
   try {
-    await mailtrapClient.send({
+    const response = await mailtrapClient.send({
       from: sender,
-      to: receipient,
+      to: recipient,
       subject: "Welcome to AuthSetu App",
-      html: WELCOME_EMAIL_TEMPLATE?.replace("{{userName}}", userName)?.replace(
+      html: WELCOME_EMAIL_TEMPLATE.replace("{{userName}}", userName).replace(
         "{{appName}}",
         appName
       ),
       category: "Welcome Email",
     });
+    console.log("welcome email sent successfully", response);
   } catch (error) {
     console.log("error in sending welcome email", error);
   }
@@ -58,21 +69,25 @@ export const sendWelcomeEmail = async (email, userName, appName) => {
 
 // password reset email
 export const passwordResetEmail = async (
+  email,
   userName,
+  appName,
   resetLink,
   timeRemaining
 ) => {
-  const receipient = [{ email }];
+  const recipient = [{ email }];
   try {
-    await mailtrapClient.send({
+    const response = await mailtrapClient.send({
       from: sender,
-      to: receipient,
+      to: recipient,
       subject: "Reset Your Password",
-      html: PASSWORD_RESET_EMAIL_TEMPLATE?.replace("{{userName}}", userName)
-        ?.replace("{{resetLink}}", resetLink)
-        ?.replace("{{expiryMinutes}}", timeRemaining),
+      html: PASSWORD_RESET_EMAIL_TEMPLATE.replace("{{userName}}", userName)
+        .replace("{{resetLink}}", resetLink)
+        .replace("{{expiryMinutes}}", timeRemaining)
+        .replace("{{appName}}", appName),
       category: "Password Reset",
     });
+    console.log("password reset email sent successfully", response);
   } catch (error) {
     console.log("error in sending welcome email", error);
   }
@@ -80,28 +95,30 @@ export const passwordResetEmail = async (
 
 // password reset success email
 export const passwordResetSuccessEmail = async (
+  email,
   userName,
   appName,
   date,
   device,
   location
 ) => {
-  const receipient = [{ email }];
+  const recipient = [{ email }];
   try {
-    await mailtrapClient.send({
+    const response = await mailtrapClient.send({
       from: sender,
-      to: receipient,
-      subject: "Password Reset Successfull",
-      html: PASSWORD_CHANGE_CONFIRMATION_EMAIL_TEMPLATE?.replace(
+      to: recipient,
+      subject: "Password Reset Successful",
+      html: PASSWORD_CHANGE_CONFIRMATION_EMAIL_TEMPLATE.replace(
         "{{userName}}",
         userName
       )
-        ?.replace("{{appName}}", appName)
-        ?.replace("{{date}}", date)
-        ?.replace("{{device}}", device)
-        ?.replace("{{location}}", location),
+        .replace("{{appName}}", appName)
+        .replace("{{date}}", date)
+        .replace("{{device}}", device)
+        .replace("{{location}}", location),
       category: "Password Reset Success",
     });
+    console.log("password reset success email sent successfully", response);
   } catch (error) {
     console.log("error in sending welcome email", error);
   }
