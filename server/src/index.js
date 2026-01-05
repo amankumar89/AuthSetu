@@ -4,6 +4,7 @@ import cookieParser from "cookie-parser";
 import { ENV } from "./config/env.js";
 import connectDB from "./config/db.js";
 import authRoutes from "./routes/auth.route.js";
+import { errorHandler } from "./middlewares/errorHandler.js";
 
 const app = express();
 
@@ -42,6 +43,8 @@ app.all("*", (req, res) => {
     },
   });
 });
+
+app.use(errorHandler);
 
 app.listen(ENV.PORT, (err) => {
   if (err) {
