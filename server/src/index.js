@@ -4,9 +4,11 @@ import cookieParser from "cookie-parser";
 import { ENV } from "./config/env.js";
 import connectDB from "./config/db.js";
 import authRoutes from "./routes/auth.route.js";
+import { errorHandler } from "./middlewares/errorHandler.js";
 
 const app = express();
 
+app.use(errorHandler);
 app.use(cors({ origin: "*" }));
 app.use(express.json());
 app.use(cookieParser());
