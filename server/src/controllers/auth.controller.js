@@ -13,6 +13,7 @@ import {
   hashedValueCompare,
   sanitizeUser,
 } from "../utils/helper.js";
+import crypto from "crypto";
 
 export const register = asyncHandler(async (req, res) => {
   const { name, email, password } = req.body;
