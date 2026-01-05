@@ -1,5 +1,6 @@
 import { generateTokenAndSetInCookie } from "../config/jwt.js";
 import {
+  deleteUserSuccessEmail,
   passwordResetEmail,
   passwordResetSuccessEmail,
   sendVerificationEmail,
@@ -13,6 +14,7 @@ import {
   hashedValueCompare,
   sanitizeUser,
 } from "../utils/helper.js";
+import crypto from "crypto";
 
 export const register = asyncHandler(async (req, res) => {
   const { name, email, password } = req.body;
@@ -133,6 +135,13 @@ export const deleteUser = asyncHandler(async (req, res) => {
   const user = await User.findById(req.userId);
   if (!user) throw new AppError("User not found.", 404);
 
+  deleteUserSuccessEmail(
+    user.email,
+    user.name,
+    new Date().toLocaleString(),
+    req.headers["user-agent"],
+    req.headers["x-forwarded-for"] || req.socket.remoteAddress
+  );
   await user.deleteOne();
 
   return res.status(200).json({ success: true, message: "User deleted." });
@@ -174,7 +183,7 @@ export const forgotPassword = asyncHandler(async (req, res) => {
   passwordResetEmail(
     email,
     user.name,
-    `${clientUrl}/reset-password/${resetPasswordToken}`,
+    `${clientUrl}/${resetPasswordToken}`,
     60
   );
 
