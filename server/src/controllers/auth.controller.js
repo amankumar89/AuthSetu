@@ -183,7 +183,7 @@ export const forgotPassword = asyncHandler(async (req, res) => {
   passwordResetEmail(
     email,
     user.name,
-    `${clientUrl}/reset-password/${resetPasswordToken}`,
+    `${clientUrl}/${resetPasswordToken}`,
     60
   );
 
