@@ -1,5 +1,5 @@
 {
-  "name": "auth-setu-frontend",
+  "name": "auth-setu-client",
   "private": true,
   "version": "0.0.0",
   "type": "module",
