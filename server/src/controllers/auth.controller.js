@@ -8,25 +8,27 @@ import {
 import User from "../models/user.model.js";
 import { asyncHandler } from "../utils/async-handler.js";
 import { AppError } from "../middlewares/appError.js";
-import { hashedValue, sanitizeUser } from "../utils/helper.js";
+import {
+  hashedValue,
+  hashedValueCompare,
+  sanitizeUser,
+} from "../utils/helper.js";
 
 export const register = asyncHandler(async (req, res) => {
   const { name, email, password } = req.body;
   if (!name?.trim() || !email?.trim() || !password?.trim())
-    throw new AppError("Name, Email, Password fields are required!", 401);
+    throw new AppError("Name, Email, Password fields are required!", 400);
 
   // check if user exists or not
   const userExists = await User.findOne({ email });
-  if (userExists) throw new AppError("User already exists", 401);
+  if (userExists) throw new AppError("User already exists", 409);
 
   // if not exist
   // hashed password
   const hashedPassword = await hashedValue(password);
 
   // generate verification token
-  const verificationToken = Math.floor(
-    100000 + Math.random() * 900000
-  ).toString();
+  const verificationToken = crypto.randomInt(100000, 1000000).toString();
 
   const user = new User({
     name,
@@ -61,7 +63,7 @@ export const verifyEmail = asyncHandler(async (req, res) => {
     verificationTokenExpireAt: { $gt: Date.now() },
   });
 
-  if (!user) throw new AppError("Invalid or expired verification code", 401);
+  if (!user) throw new AppError("Invalid or expired verification code", 400);
 
   user.isVerified = true;
   user.verificationToken = undefined;
@@ -83,13 +85,13 @@ export const verifyEmail = asyncHandler(async (req, res) => {
 export const login = asyncHandler(async (req, res) => {
   const { email, password } = req.body;
   if (!email?.trim() || !password?.trim())
-    throw new AppError("Email, Password are required fields.", 401);
+    throw new AppError("Email, Password are required fields.", 400);
 
   // check if user exists or not
   const user = await User.findOne({ email });
-  if (!user) throw new AppError("Invalid Credentials.", 401);
+  if (!user) throw new AppError("Invalid Credentials.", 400);
 
-  const isPasswordValid = await bcryptjs.compare(password, user.password);
+  const isPasswordValid = await hashedValueCompare(password, user.password);
   // user not found throw error
   if (!isPasswordValid) throw new AppError("Invalid Credentials.", 401);
 
@@ -131,7 +133,7 @@ export const deleteUser = asyncHandler(async (req, res) => {
   const user = await User.findById(req.userId);
   if (!user) throw new AppError("User not found.", 404);
 
-  await user.deleteOne({ id: req.userId });
+  await user.deleteOne();
 
   return res.status(200).json({ success: true, message: "User deleted." });
 });
@@ -142,13 +144,20 @@ export const forgotPassword = asyncHandler(async (req, res) => {
   const { email, clientUrl } = req.body;
 
   if (!email?.trim() || !clientUrl?.trim())
-    throw new AppError("email, clientUrl is required", 401);
+    throw new AppError("email, clientUrl is required", 400);
 
   // Check user exists
   const user = await User.findOne({ email });
 
   // If not → return generic success (avoid user enumeration)
-  if (!user) throw new AppError("User not found.", 404);
+  if (!user)
+    throw new AppError(
+      {
+        success: true,
+        message: "If the email exists, a reset link has been sent",
+      },
+      200
+    );
 
   // Generate reset token
   const resetPasswordToken = crypto.randomBytes(20).toString("hex");
@@ -180,14 +189,14 @@ export const resetPassword = asyncHandler(async (req, res) => {
   const { token } = req.params;
   const { password: newPassword } = req.body;
   if (!token?.trim() || !newPassword?.trim())
-    throw new AppError("new password is required", 401);
+    throw new AppError("new password is required", 400);
 
   const user = await User.findOne({
     resetPasswordToken: token,
     resetPasswordTokenExpireAt: { $gt: Date.now() },
   });
 
-  if (!user) throw new AppError("Invalid or Expired reset token", 401);
+  if (!user) throw new AppError("Invalid or Expired reset token", 400);
 
   const hashedPassword = await hashedValue(newPassword);
 

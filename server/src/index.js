@@ -8,7 +8,6 @@ import { errorHandler } from "./middlewares/errorHandler.js";
 
 const app = express();
 
-app.use(errorHandler);
 app.use(cors({ origin: "*" }));
 app.use(express.json());
 app.use(cookieParser());
@@ -44,6 +43,8 @@ app.all("*", (req, res) => {
     },
   });
 });
+
+app.use(errorHandler);
 
 app.listen(ENV.PORT, (err) => {
   if (err) {
