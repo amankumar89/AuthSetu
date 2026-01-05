@@ -54,13 +54,15 @@ app.all("*", (req, res) => {
 
 app.use(errorHandler);
 
-app.listen(ENV.PORT, (err) => {
-  if (err) {
-    console.log("error in running server", err);
-    process.exit(1);
-  }
-  console.log(`Server is running at http://localhost:${ENV.PORT}`);
-  connectDB();
-});
+if (ENV.NODE_ENV === "development") {
+  app.listen(ENV.PORT, (err) => {
+    if (err) {
+      console.log("error in running server", err);
+      process.exit(1);
+    }
+    console.log(`Server is running at http://localhost:${ENV.PORT}`);
+    connectDB();
+  });
+}
 
 export default app;
