@@ -20,6 +20,8 @@ app.use(
 app.use(express.json());
 app.use(cookieParser());
 
+connectDB();
+
 app.get("/", (req, res) => {
   res.status(200).json({
     success: true,
@@ -52,11 +54,7 @@ app.all("*", (req, res) => {
   });
 });
 
-
-// connect db in production
-if (ENV.NODE_ENV === "production") {
-  connectDB(); 
-}
+app.use(errorHandler);
 
 if (ENV.NODE_ENV === "development") {
   app.listen(ENV.PORT, (err) => {
@@ -65,10 +63,8 @@ if (ENV.NODE_ENV === "development") {
       process.exit(1);
     }
     console.log(`Server is running at http://localhost:${ENV.PORT}`);
-    connectDB();
-  });
+    });
 }
 
-app.use(errorHandler);
 
 export default app;
