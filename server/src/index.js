@@ -20,6 +20,8 @@ app.use(
 app.use(express.json());
 app.use(cookieParser());
 
+connectDB();
+
 app.get("/", (req, res) => {
   res.status(200).json({
     success: true,
@@ -60,7 +62,6 @@ app.listen(ENV.PORT, (err) => {
     process.exit(1);
   }
   console.log(`Server is running at http://localhost:${ENV.PORT}`);
-  connectDB();
 });
 
 export default app;
