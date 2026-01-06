@@ -8,14 +8,30 @@ import { errorHandler } from "./middlewares/errorHandler.js";
 
 const app = express();
 
-app.use(
-  cors({
-    origin: "http://localhost:5173",
-    credentials: true, // VERY IMPORTANT
-    methods: ["GET", "POST", "PUT", "DELETE", "PATCH"],
-    allowedHeaders: ["Content-Type", "Authorization"],
-  })
-);
+const corsOptions = {
+  origin: [
+    'https://auth-setu-server.vercel.app',
+    'http://localhost:3000',
+    'http://localhost:5173', 
+    'http://localhost:5000',
+  ],
+  credentials: true, // Allow cookies/credentials
+  methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS', 'PATCH'],
+  allowedHeaders: [
+    'Content-Type',
+    'Authorization',
+    'X-Requested-With',
+    'Accept',
+    'Origin',
+    'Access-Control-Allow-Headers',
+    'Access-Control-Request-Headers',
+    'Access-Control-Allow-Origin'
+  ],
+  exposedHeaders: ['Authorization', 'Set-Cookie'],
+  maxAge: 86400 // 24 hours
+};
+
+app.use(cors(corsOptions));
 
 app.use(express.json());
 app.use(cookieParser());
@@ -56,12 +72,15 @@ app.all("*", (req, res) => {
 
 app.use(errorHandler);
 
-app.listen(ENV.PORT, (err) => {
-  if (err) {
-    console.log("error in running server", err);
-    process.exit(1);
-  }
-  console.log(`Server is running at http://localhost:${ENV.PORT}`);
-});
+if (ENV.NODE_ENV === "development") {
+  app.listen(ENV.PORT, (err) => {
+    if (err) {
+      console.log("error in running server", err);
+      process.exit(1);
+    }
+    console.log(`Server is running at http://localhost:${ENV.PORT}`);
+    });
+}
+
 
 export default app;
