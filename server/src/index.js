@@ -54,6 +54,11 @@ app.all("*", (req, res) => {
 
 app.use(errorHandler);
 
+// connect db in production
+if (ENV.NODE_ENV === "production") {
+  connectDB(); 
+}
+
 if (ENV.NODE_ENV === "development") {
   app.listen(ENV.PORT, (err) => {
     if (err) {
