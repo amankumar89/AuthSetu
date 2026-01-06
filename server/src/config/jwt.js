@@ -22,11 +22,11 @@ export const generateTokenAndSetInCookie = (res, userId) => {
   const token = generateToken(userId);
 
   const cookieOptions = {
-    maxAge: 2 * 24 * 60 * 60 * 1000, // 2 days
-    httpOnly: true,
+    // maxAge: 2 * 24 * 60 * 60 * 1000, // 2 days
+    // httpOnly: true,
+    // path: "/",
     secure: true,
     sameSite: "none",
-    path: "/",
     domain: ".vercel.app",
   };
 
