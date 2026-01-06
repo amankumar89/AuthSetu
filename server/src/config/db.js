@@ -1,13 +1,28 @@
 import mongoose from "mongoose";
 import { ENV } from "./env.js";
 
-export default async function connectDB() {
-  try {
-    if (!ENV.MONGO_URI) throw new Error("MONGO URI Not Available.");
-    const res = await mongoose.connect(ENV.MONGO_URI);
-    console.log("Connected to database.", res.connection.host);
-  } catch (error) {
-    console.log("error in connecting db", error);
-    process.exit(1);
+const MONGO_URI = ENV.MONGO_URI;
+
+if (!MONGO_URI) {
+  throw new Error("MONGO_URI not defined");
+}
+
+let cached = mongoose;
+
+if (!cached) {
+  cached = mongoose = { conn: null, promise: null };
+}
+
+export async function connectDB() {
+  if (cached.conn) return cached.conn;
+
+  if (!cached.promise) {
+    cached.promise = await mongoose.connect(MONGO_URI).then((mongoose) => {
+      console.log("Connected to database...", mongoose.connection.host);
+      return mongoose
+    });
   }
+
+  cached.conn = await cached.promise;
+  return cached.conn;
 }
