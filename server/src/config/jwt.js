@@ -27,6 +27,7 @@ export const generateTokenAndSetInCookie = (res, userId) => {
     secure: true,
     sameSite: "none",
     path: "/",
+    domain: ".vercel.app",
   };
 
   res.cookie("token", token, cookieOptions);
