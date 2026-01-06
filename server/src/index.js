@@ -8,14 +8,30 @@ import { errorHandler } from "./middlewares/errorHandler.js";
 
 const app = express();
 
-app.use(
-  cors({
-    origin: 'https://auth-setu-server.vercel.app',
-    credentials: true, // VERY IMPORTANT
-    methods: ["GET", "POST", "PUT", "DELETE", "PATCH"],
-    allowedHeaders: ["Content-Type", "Authorization"],
-  })
-);
+const corsOptions = {
+  origin: [
+    'https://auth-setu-server.vercel.app',
+    'http://localhost:3000',
+    'http://localhost:5173', 
+    'http://localhost:5000',
+  ],
+  credentials: true, // Allow cookies/credentials
+  methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS', 'PATCH'],
+  allowedHeaders: [
+    'Content-Type',
+    'Authorization',
+    'X-Requested-With',
+    'Accept',
+    'Origin',
+    'Access-Control-Allow-Headers',
+    'Access-Control-Request-Headers',
+    'Access-Control-Allow-Origin'
+  ],
+  exposedHeaders: ['Authorization', 'Set-Cookie'],
+  maxAge: 86400 // 24 hours
+};
+
+app.use(cors(corsOptions));
 
 app.use(express.json());
 app.use(cookieParser());
