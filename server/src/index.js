@@ -10,12 +10,11 @@ const app = express();
 
 const corsOptions = {
   origin: [
-    'https://auth-setu-server.vercel.app',
+    'http://localhost:5173',
     'http://localhost:3000',
-    'http://localhost:5173', 
-    'http://localhost:5000',
+    'https://auth-setu.vercel.app', // frontend only
   ],
-  credentials: true, // Allow cookies/credentials
+  credentials: true,
   methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS', 'PATCH'],
   allowedHeaders: [
     'Content-Type',
@@ -23,15 +22,15 @@ const corsOptions = {
     'X-Requested-With',
     'Accept',
     'Origin',
-    'Access-Control-Allow-Headers',
-    'Access-Control-Request-Headers',
-    'Access-Control-Allow-Origin'
   ],
-  exposedHeaders: ['Authorization', 'Set-Cookie'],
-  maxAge: 86400 // 24 hours
+  maxAge: 86400,
 };
 
+
+
 app.set("trust proxy", 1);
+
+app.options('*', cors(corsOptions));
 
 app.use(cookieParser());
 app.use(cors(corsOptions));
