@@ -31,6 +31,8 @@ const corsOptions = {
   maxAge: 86400 // 24 hours
 };
 
+app.set("trust proxy", 1);
+
 app.use(cookieParser());
 app.use(cors(corsOptions));
 
