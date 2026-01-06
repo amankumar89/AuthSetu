@@ -52,7 +52,6 @@ app.all("*", (req, res) => {
   });
 });
 
-app.use(errorHandler);
 
 // connect db in production
 if (ENV.NODE_ENV === "production") {
@@ -69,5 +68,7 @@ if (ENV.NODE_ENV === "development") {
     connectDB();
   });
 }
+
+app.use(errorHandler);
 
 export default app;
