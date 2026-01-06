@@ -31,10 +31,10 @@ const corsOptions = {
   maxAge: 86400 // 24 hours
 };
 
+app.use(cookieParser());
 app.use(cors(corsOptions));
 
 app.use(express.json());
-app.use(cookieParser());
 
 connectDB();
 
