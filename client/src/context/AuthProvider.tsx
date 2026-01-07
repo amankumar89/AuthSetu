@@ -1,7 +1,6 @@
 import { authApi } from "@/utils/api";
 import { useEffect, useState, type ReactNode } from "react";
 import { AuthContext } from "./AuthContext";
-import Cookies from "js-cookie";
 
 interface User {
   id: string;
@@ -42,8 +41,6 @@ const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
 
   const login = async (email: string, password: string) => {
     const response = await authApi.login(email, password);
-    console.log(response.data);
-    console.log(Cookies.get("token"));
 
     if (response.data?.success) {
       await initAuth();
