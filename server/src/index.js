@@ -51,11 +51,13 @@ const corsOptions = {
 };
 
 app.use(cors(corsOptions));
-
+app.options("*", cors(corsOptions));
+app.use(cookieParser());
 app.use(express.json());
 app.use(cookieParser());
 
 connectDB();
+
 
 app.get("/", (req, res) => {
   res.status(200).json({
