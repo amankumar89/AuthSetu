@@ -26,11 +26,11 @@ export const authApi = {
   },
 
   getMe: async () => {
-    return await api.get("/me");
+    return await api.get("/me", { withCredentials: true });
   },
 
   deleteAccount: async () => {
-    return await api.delete("/delete");
+    return await api.delete("/delete", { withCredentials: true });
   },
 
   verifyEmail: async (code: string) => {
