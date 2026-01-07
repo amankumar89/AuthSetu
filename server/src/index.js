@@ -15,8 +15,25 @@ const allowedOrigins = [
 
 const app = express();
 
+app.use((req, _, next) => {
+  console.log("Origin:", req.headers.origin);
+  next();
+});
+
+
 const corsOptions = {
-  origin: allowedOrigins.includes(origin) ? origin : false,
+  origin: (origin, callback) => {
+    // Allow requests with no origin (curl, Postman, server-to-server)
+    if (!origin) {
+      return callback(null, true);
+    }
+
+    if (allowedOrigins.includes(origin)) {
+      callback(null, true);
+    } else {
+      callback(new Error("Not allowed by CORS"));
+    }
+  },
   credentials: true, // Allow cookies/credentials
   methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS', 'PATCH'],
   allowedHeaders: [
