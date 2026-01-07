@@ -6,14 +6,18 @@ import { connectDB } from "./config/db.js";
 import authRoutes from "./routes/auth.route.js";
 import { errorHandler } from "./middlewares/errorHandler.js";
 
+const allowedOrigins = [
+  'https://auth-setu-client.vercel.app',
+  'http://localhost:3000',
+  'http://localhost:5173', 
+  'http://localhost:5000',
+];
+
 const app = express();
 
 const corsOptions = {
-  origin: [
-    'http://localhost:3000',
-    'https://auth-setu.vercel.app', // frontend only
-  ],
-  credentials: true, 
+  origin: allowedOrigins.includes(origin) ? origin : false,
+  credentials: true, // Allow cookies/credentials
   methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS', 'PATCH'],
   allowedHeaders: [
     'Content-Type',
