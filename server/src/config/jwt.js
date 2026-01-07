@@ -22,12 +22,11 @@ export const generateTokenAndSetInCookie = (res, userId) => {
   const token = generateToken(userId);
 
   const cookieOptions = {
-    // maxAge: 2 * 24 * 60 * 60 * 1000, // 2 days
-    // httpOnly: true,
-    // path: "/",
-    secure: true,
+    maxAge: 2 * 24 * 60 * 60 * 1000, // 2 days
+    httpOnly: true,
+    secure: process.env.NODE_ENV === "production",
     sameSite: "none",
-    domain: ".vercel.app",
+    domain: process.env.NODE_ENV === "production" ? "auth-setu-server.vercel.app" : "localhost",
   };
 
   res.cookie("token", token, cookieOptions);
