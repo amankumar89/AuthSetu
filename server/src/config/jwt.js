@@ -24,9 +24,9 @@ export const generateTokenAndSetInCookie = (res, userId) => {
   const cookieOptions = {
     maxAge: 2 * 24 * 60 * 60 * 1000, // 2 days
     httpOnly: true,
-    secure: process.env.NODE_ENV === "production",
-    sameSite: "none",
-    domain: process.env.NODE_ENV === "production" ? "auth-setu-server.vercel.app" : "localhost",
+    secure: true,        // MUST be true (https)
+    sameSite: "none",    // MUST be none (cross-site)
+    path: "/",           // MUST
   };
 
   res.cookie("token", token, cookieOptions);
