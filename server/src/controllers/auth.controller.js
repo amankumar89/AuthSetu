@@ -1,4 +1,4 @@
-import { generateTokenAndSetInCookie } from "../config/jwt.js";
+import { clearAuthCookie, generateTokenAndSetInCookie } from "../config/jwt.js";
 import {
   deleteUserSuccessEmail,
   passwordResetEmail,
@@ -123,7 +123,8 @@ export const me = asyncHandler(async (req, res) => {
 
 // logout
 export const logout = asyncHandler(async (req, res) => {
-  res.clearCookie("token");
+  clearAuthCookie(res);
+  
   return res
     .status(200)
     .json({ success: true, message: "Logged out successfully" });
