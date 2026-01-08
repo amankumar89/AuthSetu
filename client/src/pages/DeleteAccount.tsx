@@ -24,6 +24,7 @@ const DeleteAccountContent: React.FC = () => {
       const errorMessage = err instanceof Error ? err.message : 'Failed to delete account.';
       const axiosError = err as { response?: { data?: { message?: string } } };
       setError(axiosError.response?.data?.message || errorMessage);
+      toast.error("Failed to delete account.")
     } finally {
       setIsDeleting(false);
     }

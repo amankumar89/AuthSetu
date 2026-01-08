@@ -37,6 +37,7 @@ const Register: React.FC = () => {
 
     try {
       await registerUser(data.name, data.email, data.password);
+      toast.success("User registered successfully.");
       navigate('/verify-email');
     } catch (err: unknown) {
       const errorMessage = err instanceof Error ? err.message : 'Registration failed. Please try again.';
