@@ -8,6 +8,7 @@ import AuthLayout from '@/components/auth/AuthLayout';
 import AuthInput from '@/components/auth/AuthInput';
 import AuthButton from '@/components/auth/AuthButton';
 import AuthAlert from '@/components/auth/AuthAlert';
+import toast from 'react-hot-toast';
 
 const forgotPasswordSchema = z.object({
   email: z.string().trim().email('Please enter a valid email address'),
@@ -42,6 +43,7 @@ const ForgotPassword: React.FC = () => {
       const clientUrl = data.clientUrl || window.location.origin + '/reset-password';
       await forgotPassword(data.email, clientUrl);
       setSuccess('Password reset instructions have been sent to your email.');
+      toast.success("Email sent.")
     } catch (err: unknown) {
       const errorMessage = err instanceof Error ? err.message : 'Failed to send reset email.';
       const axiosError = err as { response?: { data?: { message?: string } } };

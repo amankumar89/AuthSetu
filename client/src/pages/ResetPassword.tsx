@@ -52,7 +52,7 @@ const ResetPassword: React.FC = () => {
       await resetPassword(token, data.password);
       setSuccess('Password reset successfully! Redirecting to login...');
       toast.success("Password reset successful!");
-      setTimeout(() => navigate('/login'), 2000);
+      setTimeout(() => navigate('/login'), 1000);
     } catch (err: unknown) {
       const errorMessage = err instanceof Error ? err.message : 'Failed to reset password.';
       const axiosError = err as { response?: { data?: { message?: string } } };

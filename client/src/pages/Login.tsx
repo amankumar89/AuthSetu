@@ -8,6 +8,7 @@ import AuthLayout from '@/components/auth/AuthLayout';
 import AuthInput from '@/components/auth/AuthInput';
 import AuthButton from '@/components/auth/AuthButton';
 import AuthAlert from '@/components/auth/AuthAlert';
+import toast from 'react-hot-toast';
 
 const loginSchema = z.object({
   email: z.string().trim().email('Please enter a valid email address'),
@@ -36,11 +37,13 @@ const Login: React.FC = () => {
 
     try {
       await login(data.email, data.password);
+      toast.success("Login Successful.");
       navigate('/');
     } catch (err: unknown) {
       const errorMessage = err instanceof Error ? err.message : 'Login failed. Please check your credentials.';
       const axiosError = err as { response?: { data?: { message?: string } } };
       setError(axiosError.response?.data?.message || errorMessage);
+      toast.error("Login Failed.");
     } finally {
       setIsLoading(false);
     }

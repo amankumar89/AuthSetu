@@ -8,6 +8,7 @@ import AuthLayout from '@/components/auth/AuthLayout';
 import AuthInput from '@/components/auth/AuthInput';
 import AuthButton from '@/components/auth/AuthButton';
 import AuthAlert from '@/components/auth/AuthAlert';
+import toast from 'react-hot-toast';
 
 const registerSchema = z.object({
   name: z.string().trim().min(2, 'Name must be at least 2 characters').max(100, 'Name is too long'),
@@ -43,6 +44,7 @@ const Register: React.FC = () => {
       const errorMessage = err instanceof Error ? err.message : 'Registration failed. Please try again.';
       const axiosError = err as { response?: { data?: { message?: string } } };
       setError(axiosError.response?.data?.message || errorMessage);
+      toast.error("User Registration Failed.");
     } finally {
       setIsLoading(false);
     }
