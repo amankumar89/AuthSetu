@@ -1,7 +1,9 @@
 import axios from "axios";
 
 // const API_BASE_URL = "http://localhost:3000/api/auth";
-const API_BASE_URL = "https://auth-setu-server.vercel.app/api/auth";
+const API_BASE_URL = import.meta.env.DEV
+  ? "http://localhost:3000/api/auth"
+  : "https://auth-setu-server.vercel.app/api/auth";
 
 const api = axios.create({
   baseURL: API_BASE_URL,
@@ -45,5 +47,3 @@ export const authApi = {
     return await api.post("/reset-password", { token, password });
   },
 };
-
-export default api;

@@ -1,6 +1,4 @@
-import { Toaster } from "@/components/ui/toaster";
 import { Toaster as Sonner } from "@/components/ui/sonner";
-import { TooltipProvider } from "@/components/ui/tooltip";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import AuthProvider from "@/context/AuthProvider";
 import Profile from "./pages/Profile";
@@ -13,10 +11,13 @@ import DeleteAccount from "./pages/DeleteAccount";
 import NotFound from "./pages/NotFound";
 
 const App = () => (
-  <TooltipProvider>
-    <Toaster />
-    <Sonner />
-    <BrowserRouter>
+  <>
+    <BrowserRouter
+      future={{
+        v7_startTransition: true,
+        v7_relativeSplatPath: true,
+      }}
+    >
       <AuthProvider>
         <Routes>
           <Route path="/" element={<Profile />} />
@@ -30,7 +31,8 @@ const App = () => (
         </Routes>
       </AuthProvider>
     </BrowserRouter>
-  </TooltipProvider>
+    <Sonner />
+  </>
 );
 
 export default App;
