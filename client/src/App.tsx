@@ -1,4 +1,3 @@
-import { Toaster as Sonner } from "@/components/ui/sonner";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import AuthProvider from "@/context/AuthProvider";
 import Profile from "./pages/Profile";
@@ -9,6 +8,7 @@ import ForgotPassword from "./pages/ForgotPassword";
 import ResetPassword from "./pages/ResetPassword";
 import DeleteAccount from "./pages/DeleteAccount";
 import NotFound from "./pages/NotFound";
+import { Toaster } from "react-hot-toast";
 
 const App = () => (
   <>
@@ -31,7 +31,7 @@ const App = () => (
         </Routes>
       </AuthProvider>
     </BrowserRouter>
-    <Sonner />
+    <Toaster position="top-center" reverseOrder={false}  />
   </>
 );
 
