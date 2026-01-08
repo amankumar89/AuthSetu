@@ -1,6 +1,13 @@
 import jwt from "jsonwebtoken";
 import { ENV } from "./env.js";
 
+export const COOKIE_OPTIONS = {
+  httpOnly: true,
+  secure: true,
+  sameSite: "none",   
+  path: "/",
+};
+
 // generate jwt token
 export const generateToken = (id) => {
   return jwt.sign({ id }, ENV.JWT_SECRET, {
@@ -22,12 +29,14 @@ export const generateTokenAndSetInCookie = (res, userId) => {
   const token = generateToken(userId);
 
   const cookieOptions = {
+    ...COOKIE_OPTIONS,
     maxAge: 2 * 24 * 60 * 60 * 1000, // 2 days
-    httpOnly: true,
-    secure: true,        // MUST be true (https)
-    sameSite: "none",    // MUST be none (cross-site)
-    path: "/",           // MUST
   };
 
   res.cookie("token", token, cookieOptions);
+  return token;
+};
+
+export const clearAuthCookie = (res) => {
+  res.clearCookie("token", COOKIE_OPTIONS);
 };
