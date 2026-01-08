@@ -58,6 +58,9 @@ const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
   const logout = async () => {
     try {
       await authApi.logout();
+      setIsAuthenticated(false);
+      setUser(null);
+      setIsLoading(false);
     } catch {
       // Ignore logout errors
     }

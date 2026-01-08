@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { z } from 'zod';
@@ -19,7 +19,7 @@ type LoginFormData = z.infer<typeof loginSchema>;
 
 const Login: React.FC = () => {
   const navigate = useNavigate();
-  const { login } = useAuth();
+  const { login, isAuthenticated, user } = useAuth();
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
@@ -48,6 +48,12 @@ const Login: React.FC = () => {
       setIsLoading(false);
     }
   };
+
+  useEffect(() => {
+    if(isAuthenticated && user.isVerified) {
+      navigate("/");
+    }
+  }, [isAuthenticated, JSON.stringify(user), navigate]);
 
   return (
     <AuthLayout title="Welcome back" subtitle="Sign in to your account">
