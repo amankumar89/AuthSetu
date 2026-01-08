@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { z } from 'zod';
@@ -9,6 +9,7 @@ import AuthInput from '@/components/auth/AuthInput';
 import AuthButton from '@/components/auth/AuthButton';
 import AuthAlert from '@/components/auth/AuthAlert';
 import { authApi } from '@/utils/api';
+import toast from 'react-hot-toast';
 
 const verifyEmailSchema = z.object({
   code: z.string().trim().min(4, 'Verification code is required').max(10, 'Invalid code'),
@@ -18,7 +19,7 @@ type VerifyEmailFormData = z.infer<typeof verifyEmailSchema>;
 
 const VerifyEmail: React.FC = () => {
   const navigate = useNavigate();
-  const { verifyEmail } = useAuth();
+  const { verifyEmail, isAuthenticated, user } = useAuth();
   const [isLoading, setIsLoading] = useState(false);
   const [isResending, setIsResending] = useState(false);
   const [error, setError] = useState<string | null>(null);
@@ -38,12 +39,13 @@ const VerifyEmail: React.FC = () => {
 
     try {
       await verifyEmail(data.code);
-      setSuccess('Email verified successfully!');
-      setTimeout(() => navigate('/'), 2000);
+      toast.success('Email verified successfully!');
+      setTimeout(() => navigate('/'), 1000);
     } catch (err: unknown) {
       const errorMessage = err instanceof Error ? err.message : 'Verification failed. Please try again.';
       const axiosError = err as { response?: { data?: { message?: string } } };
       setError(axiosError.response?.data?.message || errorMessage);
+      toast.error("Failed to verify email.");
     } finally {
       setIsLoading(false);
     }
@@ -66,6 +68,11 @@ const VerifyEmail: React.FC = () => {
       setIsResending(false);
     }
   };
+
+  useEffect(() => {
+    if(isAuthenticated && user?.isVerified) navigate("/");
+  }, [isAuthenticated, navigate, JSON.stringify(user)])
+
 
   return (
     <AuthLayout title="Verify your email" subtitle="Enter the code we sent to your email">

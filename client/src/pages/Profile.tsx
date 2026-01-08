@@ -4,6 +4,7 @@ import { useAuth } from "@/context/AuthContext";
 import AuthButton from "@/components/auth/AuthButton";
 import ProtectedRoute from "@/components/auth/ProtectedRoute";
 import { User, Mail, LogOut, Trash2, Shield } from "lucide-react";
+import toast from "react-hot-toast";
 
 const ProfileContent: React.FC = () => {
   const navigate = useNavigate();
@@ -14,9 +15,10 @@ const ProfileContent: React.FC = () => {
     setIsLoggingOut(true);
     try {
       await logout();
+      toast.success("Logout Successful.");
       navigate("/login");
     } catch {
-      // Ignore errors
+      toast.error("Failed to Logout.");
     } finally {
       setIsLoggingOut(false);
     }
@@ -84,7 +86,7 @@ const ProfileContent: React.FC = () => {
               <h2 className="text-lg font-semibold text-foreground mb-4">
                 Account Actions
               </h2>
-              <div className="flex flex-col sm:flex-row gap-3">
+              <div className="flex flex-col items-center sm:flex-row gap-4">
                 <AuthButton
                   variant="secondary"
                   onClick={handleLogout}
@@ -94,9 +96,9 @@ const ProfileContent: React.FC = () => {
                   Sign out
                 </AuthButton>
                 <Link to="/delete-account" className="w-full sm:w-auto">
-                  <AuthButton variant="destructive" className="w-full">
+                  <AuthButton variant="destructive" className="w-full" aria-label="Delete account">
                     <Trash2 className="w-4 h-4" />
-                    Delete account
+                    {/* Delete account */}
                   </AuthButton>
                 </Link>
               </div>

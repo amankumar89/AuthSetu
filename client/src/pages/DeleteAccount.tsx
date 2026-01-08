@@ -6,6 +6,7 @@ import AuthButton from '@/components/auth/AuthButton';
 import AuthAlert from '@/components/auth/AuthAlert';
 import ProtectedRoute from '@/components/auth/ProtectedRoute';
 import { AlertTriangle } from 'lucide-react';
+import toast from 'react-hot-toast';
 
 const DeleteAccountContent: React.FC = () => {
   const navigate = useNavigate();
@@ -19,11 +20,13 @@ const DeleteAccountContent: React.FC = () => {
 
     try {
       await deleteAccount();
+      toast.success("Account Deleted.");
       navigate('/login');
     } catch (err: unknown) {
       const errorMessage = err instanceof Error ? err.message : 'Failed to delete account.';
       const axiosError = err as { response?: { data?: { message?: string } } };
       setError(axiosError.response?.data?.message || errorMessage);
+      toast.error("Failed to delete account.")
     } finally {
       setIsDeleting(false);
     }
@@ -46,7 +49,7 @@ const DeleteAccountContent: React.FC = () => {
           </div>
         </div>
 
-        <div className="space-y-3">
+        <div className="flex flex-col space-y-3">
           <AuthButton
             variant="destructive"
             onClick={handleDelete}
