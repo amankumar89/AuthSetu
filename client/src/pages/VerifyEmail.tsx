@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { z } from 'zod';
@@ -69,7 +69,10 @@ const VerifyEmail: React.FC = () => {
     }
   };
 
-  if(isAuthenticated && user.isVerified) navigate("/");
+  useEffect(() => {
+    if(isAuthenticated && user?.isVerified) navigate("/");
+  }, [isAuthenticated, navigate, JSON.stringify(user)])
+
 
   return (
     <AuthLayout title="Verify your email" subtitle="Enter the code we sent to your email">

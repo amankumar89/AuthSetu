@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { z } from 'zod';
@@ -8,6 +8,7 @@ import AuthLayout from '@/components/auth/AuthLayout';
 import AuthInput from '@/components/auth/AuthInput';
 import AuthButton from '@/components/auth/AuthButton';
 import AuthAlert from '@/components/auth/AuthAlert';
+import toast from 'react-hot-toast';
 
 const resetPasswordSchema = z.object({
   password: z.string().min(8, 'Password must be at least 8 characters'),
@@ -50,19 +51,24 @@ const ResetPassword: React.FC = () => {
     try {
       await resetPassword(token, data.password);
       setSuccess('Password reset successfully! Redirecting to login...');
-      setTimeout(() => navigate('/login'), 1000);
+      toast.success("Password reset successful!");
+      setTimeout(() => navigate('/login'), 2000);
     } catch (err: unknown) {
       const errorMessage = err instanceof Error ? err.message : 'Failed to reset password.';
       const axiosError = err as { response?: { data?: { message?: string } } };
       setError(axiosError.response?.data?.message || errorMessage);
+      toast.error("Failed to reset password!");
     } finally {
       setIsLoading(false);
     }
   };
 
-  if(!token) {
-    navigate("/");
-  }
+  useEffect(() => {
+    if(!token) {
+      navigate("/");
+    }
+  }, [token, navigate])
+
 
   return (
     <AuthLayout title="Reset password" subtitle="Create a new password for your account">

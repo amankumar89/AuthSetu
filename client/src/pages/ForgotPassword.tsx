@@ -48,7 +48,7 @@ const ForgotPassword: React.FC = () => {
       const errorMessage = err instanceof Error ? err.message : 'Failed to send reset email.';
       const axiosError = err as { response?: { data?: { message?: string } } };
       setError(axiosError.response?.data?.message || errorMessage);
-      toast.error(errorMessage || axiosError.response?.data?.message || "Failed to sent email.");
+      toast.error(errorMessage || axiosError.response?.data?.message);
     } finally {
       setIsLoading(false);
     }

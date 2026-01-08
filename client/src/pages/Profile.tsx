@@ -96,7 +96,7 @@ const ProfileContent: React.FC = () => {
                   Sign out
                 </AuthButton>
                 <Link to="/delete-account" className="w-full sm:w-auto">
-                  <AuthButton variant="destructive" className="w-full">
+                  <AuthButton variant="destructive" className="w-full" aria-label="Delete account">
                     <Trash2 className="w-4 h-4" />
                     {/* Delete account */}
                   </AuthButton>
