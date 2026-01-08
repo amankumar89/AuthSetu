@@ -45,5 +45,3 @@ export const authApi = {
     return await api.post("/reset-password", { token, password });
   },
 };
-
-export default api;
