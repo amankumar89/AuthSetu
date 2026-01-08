@@ -60,6 +60,10 @@ const ResetPassword: React.FC = () => {
     }
   };
 
+  if(!token) {
+    navigate("/");
+  }
+
   return (
     <AuthLayout title="Reset password" subtitle="Create a new password for your account">
       <form onSubmit={handleSubmit(onSubmit)} className="space-y-5">
