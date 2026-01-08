@@ -19,6 +19,7 @@ type VerifyEmailFormData = z.infer<typeof verifyEmailSchema>;
 const VerifyEmail: React.FC = () => {
   const navigate = useNavigate();
   const { verifyEmail, isAuthenticated, user } = useAuth();
+  const { verifyEmail, isAuthenticated, user } = useAuth();
   const [isLoading, setIsLoading] = useState(false);
   const [isResending, setIsResending] = useState(false);
   const [error, setError] = useState<string | null>(null);

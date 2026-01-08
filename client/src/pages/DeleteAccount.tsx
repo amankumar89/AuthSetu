@@ -47,7 +47,7 @@ const DeleteAccountContent: React.FC = () => {
           </div>
         </div>
 
-        <div className="space-y-3">
+        <div className="flex flex-col space-y-3">
           <AuthButton
             variant="destructive"
             onClick={handleDelete}

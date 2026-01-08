@@ -84,7 +84,7 @@ const ProfileContent: React.FC = () => {
               <h2 className="text-lg font-semibold text-foreground mb-4">
                 Account Actions
               </h2>
-              <div className="flex flex-col sm:flex-row gap-3">
+              <div className="flex flex-col items-center sm:flex-row gap-4">
                 <AuthButton
                   variant="secondary"
                   onClick={handleLogout}
@@ -96,7 +96,7 @@ const ProfileContent: React.FC = () => {
                 <Link to="/delete-account" className="w-full sm:w-auto">
                   <AuthButton variant="destructive" className="w-full" aria-label="Delete account">
                     <Trash2 className="w-4 h-4" />
-                    Delete account
+                    {/* Delete account */}
                   </AuthButton>
                 </Link>
               </div>
