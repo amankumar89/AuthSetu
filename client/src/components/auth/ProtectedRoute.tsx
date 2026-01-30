@@ -1,7 +1,7 @@
 import React, { ReactNode, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '@/context/AuthContext';
-import { Loader2 } from 'lucide-react';
+import LoadingSpinner from '../LoadingSpinner';
 
 interface ProtectedRouteProps {
   children: ReactNode;
@@ -17,27 +17,9 @@ const ProtectedRoute: React.FC<ProtectedRouteProps> = ({ children }) => {
     }
   }, [isLoading, isAuthenticated, navigate]);
 
-  if (isLoading) {
-    return (
-      <div className="min-h-screen flex items-center justify-center bg-secondary/50">
-        <div className="flex flex-col items-center gap-4">
-          <Loader2 className="w-8 h-8 animate-spin text-primary" />
-          <p className="text-muted-foreground">Loading...</p>
-        </div>
-      </div>
-    );
-  }
+  if (isLoading) return <LoadingSpinner />
 
-  if (!isAuthenticated) {
-    return (
-      <div className="min-h-screen flex items-center justify-center bg-secondary/50">
-        <div className="flex flex-col items-center gap-4">
-          <Loader2 className="w-8 h-8 animate-spin text-primary" />
-          <p className="text-muted-foreground">Redirecting...</p>
-        </div>
-      </div>
-    );
-  }
+  if (!isAuthenticated) return <LoadingSpinner message='Redirecting' />
 
   return <>{children}</>;
 };
